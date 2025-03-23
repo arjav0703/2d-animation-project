@@ -12,14 +12,13 @@ export default function App() {
   const canvastoggle = useRef(null)
   const growingSpan = useRef(null)
 
+
+
   useEffect(() => {
     const scroll = new LocomotiveScroll({
       el: document.querySelector('[data-scroll-container]'),
       smooth: true
-  });
-  }, []);
-
-  useEffect(() => {
+    });
     const handleClick = (cl) => {
       setShowCanvas((prevShowCanvas) => {
         if (!prevShowCanvas) {
@@ -62,8 +61,11 @@ export default function App() {
     const headingElement = canvastoggle.current;
     headingElement.addEventListener("click", handleClick);
 
-    // Clean up event listener on unmount
-    return () => headingElement.removeEventListener("click", handleClick);
+    // Clean up event listener and destroy locomotive scroll instance on unmount
+    return () => {
+      headingElement.removeEventListener("click", handleClick);
+      scroll.destroy();
+    };
   }, []);
 
   const pages = [0,1,2]
